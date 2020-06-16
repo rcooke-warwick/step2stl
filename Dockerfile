@@ -1,57 +1,38 @@
 FROM python:3.6
 
-RUN     apt-get update && \
-        apt-get install -y \
-            automake \
-            bison \
-            build-essential \
-            cmake \
-            libboost-dev \
-            libgl1-mesa-dev \
-            libglu1-mesa-dev \
-            libharfbuzz-dev \
-            libpcre3-dev \
-            libsm6 \
-            wget
 
-WORKDIR /tmp/build
+RUN apt-get update && \
+    apt-get install -y cmake freeglut3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-ARG SWIG_VERSION=3.0.9
-ARG FREETYPE_VERSION=2.6.3
-ARG OCE_VERSION=0.18.3
-ARG SMESH_VERSION=6.7.6
-ARG PYTHONOCC_CORE_VERSION=0.18.1
+# Compile OCE Library
+RUN set -ex && \
+    git clone git://github.com/tpaviot/oce.git && \
+    mkdir oce/build && \
+    cd oce/build && \
+    cmake .. && \
+    make -j2 && \
+    make install/strip && \
+    cd ../.. \
+    && rm -rf oce
 
-COPY build-files/build_swig.sh /tmp
-COPY build-files/build_freetype.sh /tmp
-COPY build-files/build_oce.sh /tmp
-COPY build-files/build_smesh.sh /tmp
-COPY build-files/build_pythonocc_core.sh /tmp
+RUN apt-get update && \
+    apt-get install -y swig3.0 libpython2.7-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-copy convert-stl.py /
-
-RUN chmod +x ../*.sh
-RUN chmod +x /convert-stl.py
-
-RUN ../build_swig.sh $SWIG_VERSION
-RUN ../build_freetype.sh $FREETYPE_VERSION
-RUN ../build_oce.sh $OCE_VERSION
-RUN ../build_smesh.sh $SMESH_VERSION
-RUN ../build_pythonocc_core.sh $PYTHONOCC_CORE_VERSION
-
-
-
-WORKDIR /
-
-RUN     apt-get remove --auto-remove -y \
-            automake \
-            bison \
-            build-essential \
-            cmake \
-            libboost-dev \
-            libpcre3-dev \
-            wget && \
-        rm -rf /var/lib/apt/lists/*
+# Compile PythonOCC Package
+RUN set -ex && \
+    git clone git://github.com/tpaviot/pythonocc-core.git && \
+    mkdir pythonocc-core/build && \
+    cd pythonocc-core/build && \
+    cmake .. \
+        -DSWIG_EXECUTABLE=/usr/bin/swig3.0 \
+        -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 \
+        -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so.1.0 && \
+    make -j2 && \
+    make install && \
+    cd ../.. && \
+    rm -rf pythonocc-core
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
