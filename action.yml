@@ -1,0 +1,20 @@
+name: '.STEP to .STL Action'
+description: 'Convert videos in the folder to the given format'
+inputs:
+  step-file:
+    description: 'original file'
+    required: true
+    default: ''
+  output-folder:
+    description: 'Folder in which converted file is stored'
+    required: true
+    default: 'output'
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.file }}
+    - ${{ inputs.output-folder }}
