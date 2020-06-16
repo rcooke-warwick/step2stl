@@ -16,5 +16,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.file }}
+    - ${{ inputs.step-file }}
     - ${{ inputs.output-folder }}
