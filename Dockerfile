@@ -1,11 +1,14 @@
-FROM python:3.6
+FROM jupyter/scipy-notebook:7a0c7325e470
 
 USER root
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
 RUN apt-get install -y wget git build-essential libgl1-mesa-dev libfreetype6-dev libglu1-mesa-dev libzmq3-dev libsqlite3-dev libicu-dev python3-dev libgl2ps-dev libfreeimage-dev libtbb-dev ninja-build bison autotools-dev automake libpcre3 libpcre3-dev tcl8.5 tcl8.5-dev tk8.5 tk8.5-dev libxmu-dev libxi-dev libopenblas-dev libboost-all-dev swig libxml2-dev
 
+RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 # cmake
 WORKDIR /opt/build
