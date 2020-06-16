@@ -1,4 +1,6 @@
-FROM alpine:3.2
+FROM python:3.6
+
+USER root
 
 RUN apt-get update
 
