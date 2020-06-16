@@ -29,7 +29,7 @@ RUN set -ex && \
         -DSWIG_EXECUTABLE=/usr/bin/swig3.0 \
         -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 \
         -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so.1.0 && \
-        -OpenCASCADE_DIR=/opt/build/occt740/include/opencascade
+        -OpenCASCADE_DIR=/opt/build/occt740/include/opencascade \
     make -j2 && \
     make install && \
     cd ../.. && \
