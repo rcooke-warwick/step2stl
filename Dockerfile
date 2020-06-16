@@ -1,4 +1,4 @@
-#FROM python:2.7
+FROM alpine:3.2
 
 RUN apt-get update
 
