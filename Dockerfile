@@ -17,6 +17,7 @@ RUN tar -zxvf cmake-3.15.5.tar.gz
 WORKDIR /opt/build/cmake-3.15.5
 RUN ./bootstrap && make -j3 && make install
 
+# occ
 WORKDIR /opt/build
 RUN wget https://github.com/tpaviot/oce/releases/download/official-upstream-packages/opencascade-7.4.0.tgz
 RUN tar -zxvf opencascade-7.4.0.tgz >> installed_occt740_files.txt
@@ -54,6 +55,17 @@ RUN cmake -G Ninja \
  
 RUN ninja install
 
+
+############
+# svgwrite #
+############
+RUN pip install svgwrite
+
+WORKDIR /
+COPY convert-stl.py /convert-stl.py
+
+#entry
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]

@@ -1,5 +1,5 @@
 
-#!/bin/sh -l
+#!/bin/bash -l
 
 OIFS="$IFS"
 IFS=$'\n'
