@@ -12,7 +12,7 @@ FILE_TYPE=".stl"
 mkdir -p "$DIR"
 
 echo "Converting $IN"
-python3 convert-stl $IN ${OUT/$FILE_EXTENSION/$FILE_TYPE}
+python3 convert-stl.py $IN ${OUT/$FILE_EXTENSION/$FILE_TYPE}
 
 
 done
