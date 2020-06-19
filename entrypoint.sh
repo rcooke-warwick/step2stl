@@ -15,7 +15,7 @@ pwd
 ls
 
 echo "Converting $IN"
-python3 convert-stl.py $IN ${OUT/$FILE_EXTENSION/$FILE_TYPE}
+python3 /usr/bin/convert-stl.py $IN ${OUT/$FILE_EXTENSION/$FILE_TYPE}
 
 
 done
