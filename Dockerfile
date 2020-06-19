@@ -62,7 +62,7 @@ RUN ninja install
 RUN pip install svgwrite
 
 WORKDIR /
-COPY convert-stl.py /convert-stl.py
+COPY convert-stl.py /usr/bin/convert-stl.py
 
 #entry
 COPY entrypoint.sh /entrypoint.sh
